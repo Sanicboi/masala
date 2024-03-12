@@ -1,0 +1,18 @@
+version: "3.0"
+name: massala
+services:
+  bot:
+    build: .
+    restart: always
+  
+  db:
+    image: postgres
+    ports:
+      - 5437:5432
+    volumes:
+      - ~/masala-data:/var/lib/postgresql/data:rw
+    environment:
+      - POSTGRES_INITDB_ARGS="-E UTF8"
+      - POSTGRES_DB=test
+      - POSTGRES_PASSWORD=test
+      - POSTGRES_USER=root
