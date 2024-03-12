@@ -70,4 +70,16 @@ export class User {
 
     @Column({nullable: true})
     tellMoreQuery: string;
+
+    @Column({nullable: true})
+    healthIssue: string;
+
+    @Column({nullable: true})
+    lymphAge: string;
+
+    @Column({nullable: true})
+    work: string;
+
+    @Column({nullable: true})
+    workType: string;
 }

@@ -333,6 +333,12 @@ export const test = (bot: Bot, repo: Repository<User>) => {
                             ],
                             [
                                 {
+                                    text: 'Профилактика здоровья',
+                                    callback_data: 'profilactics'
+                                }
+                            ],
+                            [
+                                {
                                     text: 'Другое',
                                     callback_data: 'result-other'
                                 }
@@ -1206,8 +1212,293 @@ export const test = (bot: Bot, repo: Repository<User>) => {
                     ]
                 }
             })
+        } else if (q.data === 'profilactics') {
+            await bot.sendMessage(q.from.id, 'Сузим круг. Выбери конкретную проблему', {
+                reply_markup: {
+                    inline_keyboard: [
+                        [
+                            {
+                                text: 'Проблемы с лимфатической системой',
+                                callback_data: 'limpha'                                
+                            }
+                        ],
+                        [
+                            {
+                                text: 'Улучшение гибкости и подвижности',
+                                callback_data: 'flexmob'
+                            }
+                        ],
+                        [
+                            {
+                                text: 'Усталость и тяжесть в ногах',
+                                callback_data: 'legs'
+                            }
+                        ],
+                        [
+                            {
+                                text: 'Другое',
+                                callback_data: 'pis-other'
+                            }
+                        ],
+                        [
+                            {
+                                text: 'Назад',
+                                callback_data: user.lastQuery
+                            }
+                        ]
+                    ]
+                }
+            });
+        } else if (q.data === 'limpha') {
+            user.healthIssue = 'lymph';
+            await repo.save(user);
+            await bot.sendMessage(q.from.id, 'Как давно у вас данная проблема?', {
+                reply_markup: {
+                    inline_keyboard: [
+                        [
+                            {
+                                text: 'Меньше года',
+                                callback_data: 'lyear'
+                            }
+                        ],
+                        [
+                            {
+                                text: 'Больше года',
+                                callback_data: 'myear'
+                            }
+                        ],
+                        [
+                            {
+                                text: 'Больше 6 лет',
+                                callback_data: 'm6yr'
+                            }
+                        ],
+                        [
+                            {
+                                text: '10 лет и более',
+                                callback_data: 'm10yr'
+                            }
+                        ],
+                        [
+                            {
+                                text: 'Назад',
+                                callback_data: user.lastQuery
+                            }
+                        ]
+                    ]
+                }
+            });
+        } else if (q.data === 'lyear' || q.data === 'myear' || q.data === 'm6yr' || q.data === 'm10yr') {
+            user.lymphAge = q.data;
+            await repo.save(user);
+            await bot.sendMessage(q.from.id, 'Оцените уровень вашего стресса от 1 до 5', {
+                reply_markup: {
+                    inline_keyboard: [
+                        [
+                            {
+                                text: '1',
+                                callback_data: 'hstr-1'
+                            }
+                        ],
+                        [
+                            {
+                                text: '2',
+                                callback_data: 'hstr-2'
+                            }
+                        ],
+                        [
+                            {
+                                text: '3',
+                                callback_data: 'hstr-3'
+                            }
+                        ],
+                        [
+                            {
+                                text: '4',
+                                callback_data: 'hstr-4'
+                            }
+                        ],
+                        [
+                            {
+                                text: '5',
+                                callback_data: 'hstr-5'
+                            }
+                        ],
+                        [
+                            {
+                                text: 'Назад',
+                                callback_data: user.lastQuery
+                            }
+                        ]
+                    ]
+                }
+            })
+        } else if (q.data === 'flexmob' || q.data === 'legs') {
+            user.healthIssue = q.data;
+            await repo.save(user);
+            await bot.sendMessage(q.from.id, 'Вы работаете?', {
+                reply_markup: {
+                    inline_keyboard: [
+                        [
+                            {
+                                text: 'Да',
+                                callback_data: 'work-y',
+                            },
+                            {
+                                text: 'Нет',
+                                callback_data: 'work-n'
+                            }
+                        ],
+                        [
+                            {
+                                text: 'Назад',
+                                callback_data: user.lastQuery
+                            }
+                        ]
+                    ]
+                }
+            });
+        } else if (q.data.startsWith('work-')) {
+            user.work = q.data;
+            await repo.save(user);
+            await bot.sendMessage(q.from.id, 'Ваша работа больше связана с сидячей активностью или стоячей?', {
+                reply_markup: {
+                    inline_keyboard: [
+                        [
+                            {
+                                text: 'Сидячей',
+                                callback_data: 'sitting'
+                            }
+                        ],
+                        [
+                            {
+                                text: 'Стоячей',
+                                callback_data: 'standing'
+                            }
+                        ],
+                        [
+                            {
+                                text: 'Назад',
+                                callback_data: user.lastQuery
+                            }
+                        ]
+                    ]
+                }
+            }); 
+        } else if (q.data === 'sitting' || q.data === 'standing') {
+            user.workType = q.data;
+            await repo.save(user);
+            await bot.sendMessage(q.from.id, 'Оцените уровень вашего стресса от 1 до 5', {
+                reply_markup: {
+                    inline_keyboard: [
+                        [
+                            {
+                                text: '1',
+                                callback_data: 'hstr-1'
+                            }
+                        ],
+                        [
+                            {
+                                text: '2',
+                                callback_data: 'hstr-2'
+                            }
+                        ],
+                        [
+                            {
+                                text: '3',
+                                callback_data: 'hstr-3'
+                            }
+                        ],
+                        [
+                            {
+                                text: '4',
+                                callback_data: 'hstr-4'
+                            }
+                        ],
+                        [
+                            {
+                                text: '5',
+                                callback_data: 'hstr-5'
+                            }
+                        ],
+                        [
+                            {
+                                text: 'Назад',
+                                callback_data: user.lastQuery
+                            }
+                        ]
+                    ]
+                }
+            })
+        } else if (q.data.startsWith('hstr-')) {
+            await bot.sendMessage(q.from.id, 'Как часто вы занимаетесь физической активностью?', {
+                reply_markup: {
+                    inline_keyboard: [
+                        [
+                            {
+                                text: 'Редко',
+                                callback_data: 'hsp-r'
+                            }
+                        ],
+                        [
+                            {
+                                text: '1-2 раза в неделю',
+                                callback_data: 'hsp-m'
+                            }
+                        ],
+                        [
+                            {
+                                text: '3-4 раза в неделю',
+                                callback_data: 'hsp-w'
+                            }
+                        ],
+                        [
+                            {
+                                text: 'Почти каждый день',
+                                callback_data: 'hsp-d'
+                            }
+                        ],  
+                    ]
+                }
+            })
+        } else if (q.data.startsWith('hsp-')) {
+            // @ts-ignore
+            user.sport = q.data.at(4);
+            await repo.save(user);
+
+            let result = 'На основе ваших результатов я бы предложил ';
+            if (user.healthIssue === 'lymph') {
+                result += 'Лимфодренажный массаж';
+            } else if (user.healthIssue === 'flexmob') {
+                result += 'Тайский массаж';
+            } else if (user.healthIssue === 'legs') {
+                result += 'Рефлекторный массаж';
+            } else {
+                result += 'Тайский массаж';
+            }
+
+            await bot.sendMessage(q.from.id, result);
+            await wait(1);
+            
+            await bot.sendMessage(q.from.id, 'Ну что, готовы прийти к нам на визит?', {
+                reply_markup: {
+                    inline_keyboard: [
+                        [
+                            {
+                                text: 'Да, давайте выберем время',
+                                callback_data: 'choose-time'
+                            }
+                        ],
+                        [
+                            {
+                                text: 'Нет, еще не готов',
+                                callback_data: 'not-ready-yet'
+                            }
+                        ]
+                    ]
+                }
+            });
         }
- 
         
         user.lastQuery = q.data;
         await repo.save(user);
