@@ -42,7 +42,7 @@ export class User {
     sportIssue: 'p' | 't' | 'e' | 's';
 
     @Column({nullable: true})
-    skinIssue: 'detox' | 'swelling' | 'fading-skin' | 'improve-skin';
+    skinIssue: 'detox' | 'swelling' | 'fading-skin' | 'improve-skin'|'other';
 
     @Column({nullable: true})
     skinState: number;

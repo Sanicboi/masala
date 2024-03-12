@@ -210,7 +210,7 @@ AppDataSource.initialize().then(async () => {
             user.lastQuery = 'inj-b';
         } else if (q.data === 'injury-y') {
             user.lastQuery = 'sex-b';
-        }
+        } 
         await userRepo.save(user);
     });
 
@@ -341,6 +341,45 @@ AppDataSource.initialize().then(async () => {
                                 {
                                     text: 'Нет, еще не готов',
                                     callback_data: 'not-ready-yet'
+                                }
+                            ]
+                        ]
+                    }
+                });
+            } else if (user.tellMoreQuery === 'Кожа') {
+                user.skinIssue = 'other';
+                await userRepo.save(user);
+                await bot.sendMessage(msg.from.id, 'Как бы вы оценили состояние кожи от 1-5?', {
+                    reply_markup: {
+                        inline_keyboard: [
+                            [
+                                {
+                                    text: '1',
+                                    callback_data: 'skin-1'
+                                },
+                                {
+                                    text: '2',
+                                    callback_data: 'skin-2'
+                                },
+                            ],
+                            [
+                                {
+                                    text: '3',
+                                    callback_data: 'skin-3'
+                                },
+                                {
+                                    text: '4',
+                                    callback_data: 'skin-4'
+                                },
+                                {
+                                    text: '5',
+                                    callback_data: 'skin-5'
+                                },
+                            ],
+                            [
+                                {
+                                    text: 'Назад',
+                                    callback_data: user.lastQuery
                                 }
                             ]
                         ]

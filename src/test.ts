@@ -197,8 +197,8 @@ export const test = (bot: Bot, repo: Repository<User>) => {
         } else if (q.data === 'male' || q.data === 'female') {
             user.sex = q.data;
             await repo.save(user);
-            await bot.sendMessage(q.from.id, 'Записал');
-            await wait(1);
+            //await bot.sendMessage(q.from.id, 'Записал');
+            //await wait(1);
             await bot.sendMessage(q.from.id, 'Были ли у вас травмы тела?', {
                 reply_markup: {
                     inline_keyboard: [
@@ -216,8 +216,8 @@ export const test = (bot: Bot, repo: Repository<User>) => {
                 }
             });
         } else if (q.data.startsWith('injury')) {
-            await bot.sendMessage(q.from.id, 'Записал');
-            await wait(1);
+            //await bot.sendMessage(q.from.id, 'Записал');
+            //await wait(1);
             if (q.data === 'injury-y') {
                 user.waitingFor = 'tellMore';
                 user.tellMoreQuery = 'Травмы';
@@ -247,8 +247,8 @@ export const test = (bot: Bot, repo: Repository<User>) => {
             });
         }
         } else if (q.data.startsWith('against')) {
-            await bot.sendMessage(q.from.id, 'Записал');
-            await wait(1);
+            //await bot.sendMessage(q.from.id, 'Записал');
+            //await wait(1);
             if (q.data === 'against-y'){
                 user.waitingFor = 'tellMore';
                 user.tellMoreQuery = 'Противопоказания';
@@ -277,8 +277,8 @@ export const test = (bot: Bot, repo: Repository<User>) => {
                 });
             }
         } else if (q.data.startsWith('chron')) {
-                await bot.sendMessage(q.from.id, 'Записал');
-                await wait(1);
+                //await bot.sendMessage(q.from.id, 'Записал');
+                //await wait(1);
                 await bot.sendMessage(q.from.id, 'Был ли уже опыт массажа?', {
                     reply_markup: {
                         inline_keyboard: [
@@ -302,8 +302,8 @@ export const test = (bot: Bot, repo: Repository<User>) => {
             
             
         } else if (q.data.startsWith('exp')) {
-            await bot.sendMessage(q.from.id, 'Записал');
-            await wait(1);
+            //await bot.sendMessage(q.from.id, 'Записал');
+            //await wait(1);
             if (q.data.startsWith('exp-y')) {
                 user.waitingFor = 'tellMore';
                 user.tellMoreQuery = 'Опыт';
@@ -675,6 +675,12 @@ export const test = (bot: Bot, repo: Repository<User>) => {
                         ],
                         [
                             {
+                                text: 'Другое',
+                                callback_data: 'skin-other'
+                            }
+                        ],
+                        [
+                            {
                                 text: 'Назад',
                                 callback_data: user.lastQuery
                             }
@@ -686,8 +692,8 @@ export const test = (bot: Bot, repo: Repository<User>) => {
             user.skinIssue = q.data;
             await repo.save(user);
 
-            await bot.sendMessage(q.from.id, 'Записал');
-            await wait(1);
+            //await bot.sendMessage(q.from.id, 'Записал');
+            //await wait(1);
             await bot.sendMessage(q.from.id, 'Как бы вы оценили состояние кожи от 1-5?', {
                 reply_markup: {
                     inline_keyboard: [
@@ -727,8 +733,8 @@ export const test = (bot: Bot, repo: Repository<User>) => {
         } else if (q.data.startsWith('skin')) {
             user.skinState = Number(q.data.at(5));
             await repo.save(user);
-            await bot.sendMessage(q.from.id, 'Записал');
-            await wait(1);
+            //await bot.sendMessage(q.from.id, 'Записал');
+            //await wait(1);
             await bot.sendMessage(q.from.id, 'Как бы вы оценили вашу кожу?', {
                 reply_markup: {
                     inline_keyboard: [
@@ -769,8 +775,8 @@ export const test = (bot: Bot, repo: Repository<User>) => {
             user.skinState2 = q.data;
             await repo.save(user);
 
-            await bot.sendMessage(q.from.id, 'Записал');
-            await wait(1);
+            //await bot.sendMessage(q.from.id, 'Записал');
+            //await wait(1);
             await bot.sendMessage(q.from.id, 'Как часто вы испытываете стресс?', {
                 reply_markup: {
                     inline_keyboard: [
@@ -817,9 +823,11 @@ export const test = (bot: Bot, repo: Repository<User>) => {
             } else if (user.skinIssue === 'improve-skin') {
                 result += 'Антицеллюлитный массаж, обертывание глиной, спейслифтинг, хиромассаж лица, обертывание водорослями, а также медовый массаж';
             } else if (user.skinIssue === 'fading-skin') {
-                result += 'Спейслифтинг, а также хиромассаж лиц';
+                result += 'Спейслифтинг, а также хиромассаж лица';
             } else if (user.skinIssue === 'detox') {
                 result += 'Обертывание водорослями, а также медовый массаж';
+            } else if (user.skinIssue === 'other') {
+                result += 'Спейслифтинг, а также хиромассаж лица';
             }
 
             await bot.sendMessage(q.from.id, result);
@@ -966,8 +974,8 @@ export const test = (bot: Bot, repo: Repository<User>) => {
         } else if (q.data.startsWith('mental-')) {
             user.mental = Number(q.data.at(7));
             await repo.save(user);
-            await bot.sendMessage(q.from.id, 'Записал');
-            await wait(1);
+            //await bot.sendMessage(q.from.id, 'Записал');
+            //await wait(1);
             await bot.sendMessage(q.from.id, 'Чувствуете ли вы напряжение в теле?', {
                 reply_markup: {
                     inline_keyboard: [
@@ -1138,7 +1146,69 @@ export const test = (bot: Bot, repo: Repository<User>) => {
             user.tellMoreQuery = 'Цель';
             await repo.save(user);
             await bot.sendMessage(q.from.id, 'Расскажите подробнее');
+        } else if (q.data === 'skin-other') {
+            user.waitingFor = 'tellMore';
+            user.tellMoreQuery = 'Кожа';
+            await repo.save(user);
+            await bot.sendMessage(q.from.id, 'Расскажите подробнее');
+        } else if (q.data === 'ag-b') {
+            await bot.sendMessage(q.from.id, 'Есть ли у вас противопоказания к массажу?', {
+                reply_markup: {
+                    inline_keyboard: [
+                        [
+                            {
+                                text: 'Да',
+                                callback_data: 'against-y'
+                            },
+                            {
+                                text: 'Нет',
+                                callback_data: 'against-n'
+                            },
+                            {
+                                text: 'Назад',
+                                callback_data: user.lastQuery
+                            }
+                        ]
+                    ]
+                }
+            });
+        } else if (q.data === 'inj-b') {
+            await bot.sendMessage(q.from.id, 'Были ли у вас травмы тела?', {
+                reply_markup: {
+                    inline_keyboard: [
+                        [
+                            {
+                                text: 'Да',
+                                callback_data: 'injury-y'
+                            },
+                            {
+                                text: 'Нет',
+                                callback_data: 'injury-n'
+                            }
+                        ]
+                    ]
+                }
+            });
+        } else if (q.data === 'sex-b') {
+            await bot.sendMessage(q.from.id, 'Укажите пол', {
+                reply_markup: {
+                    inline_keyboard: [
+                        [
+                            {
+                                text: 'Муж',
+                                callback_data: 'male'
+                            }, 
+                            {
+                                text: 'Жен',
+                                callback_data: 'female'
+                            }
+                        ]
+                    ]
+                }
+            })
         }
+ 
+        
         user.lastQuery = q.data;
         await repo.save(user);
     })
