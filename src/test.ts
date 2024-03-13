@@ -230,6 +230,12 @@ export const test = (bot: Bot, repo: Repository<User>) => {
                 callback_data: "injury-n",
               },
             ],
+            [
+              {
+                text: 'Назад',
+                callback_data: user.lastQuery
+              }
+            ]
           ],
         },
       });
@@ -1693,6 +1699,13 @@ export const test = (bot: Bot, repo: Repository<User>) => {
     }
 
     user.lastQuery = q.data;
+    if (q.data === "exp-y") {
+      user.lastQuery = "ag-b";
+    } else if (q.data === "against-y") {
+      user.lastQuery = "inj-b";
+    } else if (q.data === "injury-y") {
+      user.lastQuery = "sex-b";
+    }
     await repo.save(user);
   });
 };
