@@ -16,12 +16,14 @@ const bot = new Bot(
 
 AppDataSource.initialize().then(async () => {
   const userRepo = await AppDataSource.getRepository(User);
-
   bot.onText(/\/start/, async (msg) => {
-    const user = new User();
-    user.username = msg.from.username;
-    user.id = String(msg.from.id);
-    await userRepo.save(user);
+    let user = await userRepo.findOneBy({id: String(msg.from.id)});
+    if (!user) {
+      user = new User();
+      user.username = msg.from.username;
+      user.id = String(msg.from.id);
+      await userRepo.save(user);
+    }
     await wait(0.5);
     bot.sendMessage(msg.from.id, text("start.txt"), {
       reply_markup: {
@@ -88,6 +90,7 @@ AppDataSource.initialize().then(async () => {
   bot.on("callback_query", async (q) => {
     const user = await userRepo.findOneBy({ id: String(q.from.id) });
     console.log(q.data);
+    console.log(user.lastQuery);
     if (q.data === "about") {
       await wait(0.5);
       await bot.sendMessage(q.from.id, q.from.first_name + text("about.txt"), {
