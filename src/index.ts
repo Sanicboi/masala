@@ -23,6 +23,8 @@ AppDataSource.initialize().then(async () => {
       user.username = msg.from.username;
       user.id = String(msg.from.id);
       await userRepo.save(user);
+      await bot.sendMessage(msg.from.id, text('desc.txt'));
+      await wait(6);
     }
     await wait(0.5);
     bot.sendMessage(msg.from.id, text("start.txt"), {
@@ -93,6 +95,8 @@ AppDataSource.initialize().then(async () => {
     console.log(user.lastQuery);
     if (q.data === "about") {
       await wait(0.5);
+      await bot.sendMessage(q.from.id, text('about-2.txt'));
+      await wait(30);
       await bot.sendMessage(q.from.id, q.from.first_name + text("about.txt"), {
         reply_markup: {
           inline_keyboard: [
