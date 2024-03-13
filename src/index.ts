@@ -210,6 +210,8 @@ AppDataSource.initialize().then(async () => {
       user.waitingFor = "address";
       await userRepo.save(user);
     }
+
+    test(bot, userRepo,q);
     user.lastQuery = q.data;
     if (q.data === "exp-y") {
       user.lastQuery = "ag-b";
@@ -219,9 +221,11 @@ AppDataSource.initialize().then(async () => {
       user.lastQuery = "sex-b";
     }
     await userRepo.save(user);
+
+
   });
 
-  test(bot, userRepo);
+
 
   bot.onText(/./, async (msg) => {
     const user = await userRepo.findOneBy({ id: String(msg.from.id) });

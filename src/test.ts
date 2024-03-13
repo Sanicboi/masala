@@ -1,4 +1,4 @@
-import Bot, { InputMedia } from "node-telegram-bot-api";
+import Bot, { CallbackQuery, InputMedia } from "node-telegram-bot-api";
 import { text } from "./text";
 import { Repository } from "typeorm";
 import { User } from "./entity/User";
@@ -6,8 +6,8 @@ import fs from "fs";
 import path from "path";
 import { wait } from "./wait";
 
-export const test = (bot: Bot, repo: Repository<User>) => {
-  bot.on("callback_query", async (q) => {
+export const test = async (bot: Bot, repo: Repository<User>, q: CallbackQuery) => {
+
     const user = await repo.findOneBy({ id: String(q.from.id) });
 
     if (q.data === "super") {
@@ -1707,5 +1707,4 @@ export const test = (bot: Bot, repo: Repository<User>) => {
       user.lastQuery = "sex-b";
     }
     await repo.save(user);
-  });
 };
