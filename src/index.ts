@@ -87,7 +87,7 @@ AppDataSource.initialize().then(async () => {
 
   bot.on("callback_query", async (q) => {
     const user = await userRepo.findOneBy({ id: String(q.from.id) });
-
+    console.log(q.data);
     if (q.data === "about") {
       await wait(0.5);
       await bot.sendMessage(q.from.id, q.from.first_name + text("about.txt"), {
