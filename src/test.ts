@@ -570,17 +570,24 @@ export const test = (bot: Bot, repo: Repository<User>) => {
                 await repo.save(user);
             }
             let result: string = 'На основе ваших ответов, я бы предложил ';
+            let result2 = '';
             if (user.sport === 'd') {
                 result += 'Спортивный массаж';
+                result2 = text('sportmassage.txt')
             }  else if (user.sportIssue === 'p') {
                 result += 'Рефлекторный массаж'
+                result2 = text('reflexes.txt')
             } else if (user.sportIssue === 's') {
                 result += 'Антицеллюлитный массаж';
+                result2 = text('swellingmassage.txt');
             } else { 
                 result += 'Массаж ШВЗ';
+                result2 = text('neckmassage.txt')
             }
             await bot.sendMessage(q.from.id, result);
             await wait(2);
+            await bot.sendMessage(q.from.id, result2);
+            await wait(4);
             await bot.sendMessage(q.from.id, 'Ну что, готовы прийти к нам на визит?', {
                 reply_markup: {
                     inline_keyboard: [
@@ -824,20 +831,30 @@ export const test = (bot: Bot, repo: Repository<User>) => {
             await repo.save(user);
 
             let result = 'На основе ваших ответов я бы предложил ';
+            let result2: string | null = '';
             if (user.skinIssue === 'swelling') {
                 result += 'Антицеллюлитный массаж, а также обертывание глиной';
+                result2 = text('swellingmassage.txt');
             } else if (user.skinIssue === 'improve-skin') {
                 result += 'Антицеллюлитный массаж, обертывание глиной, спейслифтинг, хиромассаж лица, обертывание водорослями, а также медовый массаж';
+                result2 = text('swelllingmassage.txt') + '\n\n' + text('chiro.txt') + '\n\n' + text('spacelifting.txt');
             } else if (user.skinIssue === 'fading-skin') {
                 result += 'Спейслифтинг, а также хиромассаж лица';
+                result2 = text('chiro.txt') + '\n\n' + text('spacelifting.txt');
             } else if (user.skinIssue === 'detox') {
                 result += 'Обертывание водорослями, а также медовый массаж';
+                result2 = null;
             } else if (user.skinIssue === 'other') {
                 result += 'Спейслифтинг, а также хиромассаж лица';
+                result += text('chiro.txt') + '\n\n' + text('spacelifting.txt');
             }
 
             await bot.sendMessage(q.from.id, result);
             await wait(2);
+            if (result2) {
+                await bot.sendMessage(q.from.id, result2);
+                await wait(6);
+            }
             await bot.sendMessage(q.from.id, 'Ну что, готовы прийти к нам на визит?', {
                 reply_markup: {
                     inline_keyboard: [
@@ -1052,18 +1069,27 @@ export const test = (bot: Bot, repo: Repository<User>) => {
                 });
             } else {
                 let result = 'На основе ваших ответов я бы предложил ';
+                let result2: string | null = '';
                 if (user.stressIssue === 's') {
                     result += 'Расслабляющий массаж';
+                    result2 = null;
                 } else if (user.stressIssue === 'i') {
                     result += 'Рефлекторный массаж';
+                    result2 = text('reflexes.txt');
                 } else if (user.stressIssue === 'r') {
                     result += 'Спортивный массаж';
+                    result2 = text('sportmassage.txt');
                 } else if (user.stressIssue === 'm') {
                     result += 'Тайский массаж';
+                    result2 = null;
                 }
 
                 await bot.sendMessage(q.from.id, result);
                 await wait(1);
+                if (result2) {
+                    await bot.sendMessage(q.from.id, result2);
+                    await wait(4);
+                }
                 await bot.sendMessage(q.from.id, 'Ну что, готовы прийти к нам на визит?', {
                     reply_markup: {
                         inline_keyboard: [
