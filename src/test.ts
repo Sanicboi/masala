@@ -34,24 +34,24 @@ export const test = async (bot: Bot, repo: Repository<User>, q: CallbackQuery) =
       await bot.sendPhoto(q.from.id, img, {
         caption: text("massage.txt"),
       });
-      await wait(2);
+      await wait(5);
       await bot.sendMessage(q.from.id, text("problem.txt"));
-      await wait(2);
+      await wait(10);
       await bot.sendMessage(
         q.from.id,
         "☀️ Получить целенаправленный подход, сосредоточенный на их специфических проблемах и целях",
       );
-      await wait(2);
+      await wait(4);
       await bot.sendMessage(
         q.from.id,
         "☀️ Получить безопасное обслуживание, благодаря учету индивидуальных особенностей и противопоказаний",
       );
-      await wait(2);
+      await wait(4);
       await bot.sendMessage(
         q.from.id,
         "☀️ Повысить эффективность результатов за счет тщательно подобранных техник и регулярных сеансов",
       );
-      await wait(2);
+      await wait(4);
       await bot.sendMessage(
         q.from.id,
         "☀️ Получить целостный подход, включающий массаж и сопутствующие практики для улучшения общего благополучия",
@@ -99,26 +99,14 @@ export const test = async (bot: Bot, repo: Repository<User>, q: CallbackQuery) =
           ],
         },
       });
-    } else if (q.data === "next") {
+    } else if (q.data === "") {
       const img = fs.readFileSync(path.join(__dirname, "img", "act.png"));
       await wait(0.5);
       await bot.sendPhoto(q.from.id, img, {
         caption: text("act.txt"),
       });
       await wait(1);
-      await bot.sendMessage(q.from.id, text("act-2.txt"), {
-        reply_markup: {
-          inline_keyboard: [
-            [
-              {
-                callback_data: "subscribed",
-                text: "Подписался!!",
-              },
-            ],
-          ],
-        },
-      });
-    } else if (q.data === "subscribed") {
+    } else if (q.data === "next") {
       user.complete = true;
       await repo.save(user);
       await bot.sendMessage(q.from.id, "Теперь будем держаться вместе");
@@ -615,54 +603,21 @@ export const test = async (bot: Bot, repo: Repository<User>, q: CallbackQuery) =
         user.painScale = Number(q.data.at(6));
         await repo.save(user);
       }
-      let result: string = "На основе ваших ответов, я бы предложил ";
-      let result2 = "";
-      let img = null;
-      if (user.sport === "d") {
-        result += "Спортивный массаж";
-        result2 = text("sportmassage.txt");
-        img = "https://ibb.co/1RTz9n5";
-      } else if (user.sportIssue === "p") {
-        result += "Рефлекторный массаж";
-        result2 = text("reflexes.txt");
-        img = "https://ibb.co/j8vJQDn";
-      } else if (user.sportIssue === "s") {
-        result += "Антицеллюлитный массаж";
-        result2 = text("swellingmassage.txt");
-        img = "https://ibb.co/k40XSkP";
-      } else {
-        result += "Массаж ШВЗ";
-        result2 = text("neckmassage.txt");
-        img = "https://ibb.co/pvpcZ69";
-      }
-      await bot.sendMessage(q.from.id, result);
-      await wait(2);
-      await bot.sendPhoto(q.from.id, img, {
-        caption: result2,
-      });
-      await wait(4);
-      await bot.sendMessage(
-        q.from.id,
-        "Ну что, готовы прийти к нам на визит?",
-        {
-          reply_markup: {
-            inline_keyboard: [
-              [
-                {
-                  text: "Да, давайте выберем время",
-                  callback_data: "choose-time",
-                },
-              ],
-              [
-                {
-                  text: "Нет, еще не готов",
-                  callback_data: "not-ready-yet",
-                },
-              ],
-            ],
-          },
-        },
-      );
+
+      await bot.sendMessage(q.from.id, 'Ваше идеальное решение уже готово. Идем дальше?', {
+        reply_markup: {
+          inline_keyboard: [
+            [
+              {
+                text: 'Конечно',
+                callback_data: 'sub-sp'
+              }
+            ]
+          ]
+        }
+      })
+
+      
     } else if (q.data === "sport-d" || q.data === "sport-w") {
       switch (q.data) {
         case "sport-d":
@@ -899,20 +854,28 @@ export const test = async (bot: Bot, repo: Repository<User>, q: CallbackQuery) =
     } else if (q.data.startsWith("stress-")) {
       user.stress = q.data.at(7);
       await repo.save(user);
-
+      await bot.sendMessage(q.from.id, 'Ваше идеальное решение уже готово. Идем дальше?', {
+        reply_markup: {
+          inline_keyboard: [
+            [
+              {
+                text: 'Конечно',
+                callback_data: 'sub-sk'
+              }
+            ]
+          ]
+        }
+      })
+    } else if (q.data === 'get-r-skin') {
       let result = "На основе ваших ответов я бы предложил ";
-      let result2: string | null = "";
-      let result3: string | null = null;
-      let img1 = null;
-      let img2 = null;
       if (user.skinIssue === "swelling") {
         result += "Антицеллюлитный массаж, а также обертывание глиной";
         await bot.sendMessage(q.from.id, result);
-        await wait(2);
+        await wait(3);
         await bot.sendPhoto(q.from.id, "https://ibb.co/k40XSkP", {
           caption: text("swellingmassage.txt"),
         });
-        await wait(5);
+        await wait(20);
         await bot.sendPhoto(q.from.id, "https://ibb.co/1RTz9n5", {
           caption: text("clay.txt"),
         });
@@ -920,42 +883,42 @@ export const test = async (bot: Bot, repo: Repository<User>, q: CallbackQuery) =
         result +=
           "Антицеллюлитный массаж, обертывание глиной, спейслифтинг, хиромассаж лица, обертывание водорослями, а также медовый массаж";
         await bot.sendMessage(q.from.id, result);
-        await wait(2);
+        await wait(3);
         await bot.sendPhoto(q.from.id, "https://ibb.co/1RTz9n5", {
           caption: text("swelllingmassage.txt"),
         });
-        await wait(5);
+        await wait(20);
         await bot.sendPhoto(q.from.id, "https://ibb.co/pL4sTRq", {
           caption: text("chiro.txt") + "\n\n" + text("spacelifting.txt"),
         });
       } else if (user.skinIssue === "fading-skin") {
         result += "Спейслифтинг, а также хиромассаж лица";
         await bot.sendMessage(q.from.id, result);
-        await wait(2);
+        await wait(3);
         await bot.sendPhoto(q.from.id, "https://ibb.co/pL4sTRq", {
           caption: text("chiro.txt") + "\n\n" + text("spacelifting.txt"),
         });
       } else if (user.skinIssue === "detox") {
         result += "Обертывание водорослями, а также медовый массаж";
         await bot.sendMessage(q.from.id, result);
-        await wait(2);
+        await wait(3);
         await bot.sendPhoto(q.from.id, "https://ibb.co/LJw9NjF", {
           caption: text("seaweed.txt"),
         });
-        await wait(5);
+        await wait(20);
         await bot.sendPhoto(q.from.id, "https://ibb.co/S01S06b", {
           caption: text("honey.txt"),
         });
       } else if (user.skinIssue === "other") {
         result += "Спейслифтинг, а также хиромассаж лица";
         await bot.sendMessage(q.from.id, result);
-        await wait(2);
+        await wait(3);
         await bot.sendPhoto(q.from.id, "https://ibb.co/pL4sTRq", {
           caption: text("chiro.txt") + "\n\n" + text("spacelifting.txt"),
         });
       }
 
-      await wait(5);
+      await wait(20);
       await bot.sendMessage(
         q.from.id,
         "Ну что, готовы прийти к нам на визит?",
@@ -978,6 +941,19 @@ export const test = async (bot: Bot, repo: Repository<User>, q: CallbackQuery) =
           },
         },
       );
+    } else if (q.data === 'sub-sk') {
+      await bot.sendMessage(q.from.id, text("act-2.txt"), {
+        reply_markup: {
+          inline_keyboard: [
+            [
+              {
+                callback_data: "get-r-skin",
+                text: "Подписался!!",
+              },
+            ],
+          ],
+        },
+      });
     }
 
     if (q.data === "relief") {
@@ -1176,55 +1152,20 @@ export const test = async (bot: Bot, repo: Repository<User>, q: CallbackQuery) =
           },
         });
       } else {
-        let result = "На основе ваших ответов я бы предложил ";
-        let result2: string | null = null;
-        let img1 = null;
-        if (user.stressIssue === "s") {
-          result += "Расслабляющий массаж";
-          result2 = text("relaxing.txt");
-          img1 = "https://ibb.co/bX0dbHd";
-        } else if (user.stressIssue === "i") {
-          result += "Рефлекторный массаж";
-          result2 = text("reflexes.txt");
-          img1 = "https://ibb.co/j8vJQDn";
-        } else if (user.stressIssue === "r") {
-          result += "Спортивный массаж";
-          result2 = text("sportmassage.txt");
-          img1 = "https://ibb.co/1RTz9n5";
-        } else if (user.stressIssue === "m") {
-          result += "Тайский массаж";
-          result2 = text("thai.txt");
-          img1 = "https://ibb.co/fFW7sr9";
-        }
-
-        await bot.sendMessage(q.from.id, result);
-        await wait(1);
-        if (result2) {
-          await bot.sendPhoto(q.from.id, img1, { caption: result2 });
-          await wait(4);
-        }
-        await bot.sendMessage(
-          q.from.id,
-          "Ну что, готовы прийти к нам на визит?",
-          {
-            reply_markup: {
-              inline_keyboard: [
-                [
-                  {
-                    text: "Да, давайте выберем время",
-                    callback_data: "choose-time",
-                  },
-                ],
-                [
-                  {
-                    text: "Отлично, давайте выберем время",
-                    callback_data: "not-ready-yet",
-                  },
-                ],
-              ],
-            },
-          },
-        );
+        user.painScale = null;
+        await repo.save(user);
+        await bot.sendMessage(q.from.id, 'Ваше идеальное решение уже готово. Идем дальше?', {
+          reply_markup: {
+            inline_keyboard: [
+              [
+                {
+                  text: 'Конечно',
+                  callback_data: 'sub-st'
+                }
+              ]
+            ]
+          }
+        })
       }
     } else if (q.data.startsWith("mentalp-")) {
       user.muscleGroup = Number(q.data.at(8));
@@ -1268,35 +1209,19 @@ export const test = async (bot: Bot, repo: Repository<User>, q: CallbackQuery) =
       });
     } else if (q.data.startsWith("mentalscale-")) {
       user.painScale = Number(q.data.at(12));
-      await repo.save(user);
-
-      await bot.sendMessage(
-        q.from.id,
-        "На основе ваших ответов я бы предложил Спортивный массаж",
-      );
-      await wait(2);
-      await bot.sendMessage(
-        q.from.id,
-        "Я предлагаю тебе сделать первый шаг к своему новому состоянию и записаться к нам на визит.",
-        {
-          reply_markup: {
-            inline_keyboard: [
-              [
-                {
-                  text: "Да, давайте выберем время",
-                  callback_data: "choose-time",
-                },
-              ],
-              [
-                {
-                  text: "Нет, пока не готов",
-                  callback_data: "not-ready-yet",
-                },
-              ],
-            ],
-          },
-        },
-      );
+      await bot.sendMessage(q.from.id, 'Ваше идеальное решение уже готово. Идем дальше?', {
+        reply_markup: {
+          inline_keyboard: [
+            [
+              {
+                text: 'Конечно',
+                callback_data: 'sub-st'
+              }
+            ]
+          ]
+        }
+      });
+      
     } else if (q.data === "result-other") {
       user.waitingFor = "tellMore";
       user.tellMoreQuery = "Цель";
@@ -1644,7 +1569,149 @@ export const test = async (bot: Bot, repo: Repository<User>, q: CallbackQuery) =
       // @ts-ignore
       user.sport = q.data.at(4);
       await repo.save(user);
+      await bot.sendMessage(q.from.id, 'Ваше идеальное решение уже готово. Идем дальше?', {
+        reply_markup: {
+          inline_keyboard: [
+            [
+              {
+                text: 'Конечно',
+                callback_data: 'sub-he'
+              }
+            ]
+          ]
+        }
+      });
+      
+    } else if (q.data === 'get-r-muscles') {
+      let result: string = "На основе ваших ответов, я бы предложил ";
+      let result2 = "";
+      let img = null;
+      if (user.sport === "d") {
+        result += "Спортивный массаж";
+        result2 = text("sportmassage.txt");
+        img = "https://ibb.co/1RTz9n5";
+      } else if (user.sportIssue === "p") {
+        result += "Рефлекторный массаж";
+        result2 = text("reflexes.txt");
+        img = "https://ibb.co/j8vJQDn";
+      } else if (user.sportIssue === "s") {
+        result += "Антицеллюлитный массаж";
+        result2 = text("swellingmassage.txt");
+        img = "https://ibb.co/k40XSkP";
+      } else {
+        result += "Массаж ШВЗ";
+        result2 = text("neckmassage.txt");
+        img = "https://ibb.co/pvpcZ69";
+      }
+      await bot.sendMessage(q.from.id, result);
+      await wait(3);
+      await bot.sendPhoto(q.from.id, img, {
+        caption: result2,
+      });
+      await wait(20);
+      await bot.sendMessage(
+        q.from.id,
+        "Ну что, готовы прийти к нам на визит?",
+        {
+          reply_markup: {
+            inline_keyboard: [
+              [
+                {
+                  text: "Да, давайте выберем время",
+                  callback_data: "choose-time",
+                },
+              ],
+              [
+                {
+                  text: "Нет, еще не готов",
+                  callback_data: "not-ready-yet",
+                },
+              ],
+            ],
+          },
+        },
+      );
+    } else if (q.data === 'sub-sp') {
+      await bot.sendMessage(q.from.id, text("act-2.txt"), {
+        reply_markup: {
+          inline_keyboard: [
+            [
+              {
+                callback_data: "get-r-muscles",
+                text: "Подписался!!",
+              },
+            ],
+          ],
+        },
+      });
+    } else if (q.data === 'get-r-stress') {
+      let result = "На основе ваших ответов я бы предложил ";
+        let result2: string | null = null;
+        let img1 = null;
+        if (user.painScale != null) {
+          result += "Спортивный массаж";
+          result2 = text("sportmassage.txt");
+          img1 = "https://ibb.co/1RTz9n5";
+        } else if (user.stressIssue === "s") {
+          result += "Расслабляющий массаж";
+          result2 = text("relaxing.txt");
+          img1 = "https://ibb.co/bX0dbHd";
+        } else if (user.stressIssue === "i") {
+          result += "Рефлекторный массаж";
+          result2 = text("reflexes.txt");
+          img1 = "https://ibb.co/j8vJQDn";
+        } else if (user.stressIssue === "r") {
+          result += "Спортивный массаж";
+          result2 = text("sportmassage.txt");
+          img1 = "https://ibb.co/1RTz9n5";
+        } else if (user.stressIssue === "m") {
+          result += "Тайский массаж";
+          result2 = text("thai.txt");
+          img1 = "https://ibb.co/fFW7sr9";
+        }
 
+        await bot.sendMessage(q.from.id, result);
+        await wait(3);
+        if (result2) {
+          await bot.sendPhoto(q.from.id, img1, { caption: result2 });
+          await wait(20);
+        }
+        await bot.sendMessage(
+          q.from.id,
+          "Ну что, готовы прийти к нам на визит?",
+          {
+            reply_markup: {
+              inline_keyboard: [
+                [
+                  {
+                    text: "Да, давайте выберем время",
+                    callback_data: "choose-time",
+                  },
+                ],
+                [
+                  {
+                    text: "Отлично, давайте выберем время",
+                    callback_data: "not-ready-yet",
+                  },
+                ],
+              ],
+            },
+          },
+        );
+    } else if (q.data === 'sub-st') {
+      await bot.sendMessage(q.from.id, text("act-2.txt"), {
+        reply_markup: {
+          inline_keyboard: [
+            [
+              {
+                callback_data: "get-r-stress",
+                text: "Подписался!!",
+              },
+            ],
+          ],
+        },
+      });
+    } else if (q.data === 'get-r-health') {
       let result = "На основе ваших результатов я бы предложил ";
       let result2 = "";
       let img = "";
@@ -1667,12 +1734,12 @@ export const test = async (bot: Bot, repo: Repository<User>, q: CallbackQuery) =
       }
 
       await bot.sendMessage(q.from.id, result);
-      await wait(1);
+      await wait(3);
 
       await bot.sendPhoto(q.from.id, img, {
         caption: result2,
       });
-      await wait(5);
+      await wait(20);
 
       await bot.sendMessage(
         q.from.id,
@@ -1696,6 +1763,19 @@ export const test = async (bot: Bot, repo: Repository<User>, q: CallbackQuery) =
           },
         },
       );
+    } else if (q.data === 'sub-he') {
+      await bot.sendMessage(q.from.id, text("act-2.txt"), {
+        reply_markup: {
+          inline_keyboard: [
+            [
+              {
+                callback_data: "get-r-health",
+                text: "Подписался!!",
+              },
+            ],
+          ],
+        },
+      });
     }
     user.lastQuery = q.data;
     if (q.data === "exp-y") {

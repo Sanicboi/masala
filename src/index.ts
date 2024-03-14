@@ -153,7 +153,7 @@ AppDataSource.initialize().then(async () => {
       await bot.sendPhoto(q.from.id, img, {
         caption: text("test.txt"),
       });
-      await wait(1);
+      await wait(10);
       await bot.sendMessage(q.from.id, text("test-2.txt"), {
         reply_markup: {
           inline_keyboard: [
