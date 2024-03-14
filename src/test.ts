@@ -358,12 +358,12 @@ export const test = async (
                   callback_data: "profilactics",
                 },
               ],
-              [
-                {
-                  text: "Другое",
-                  callback_data: "result-other",
-                },
-              ],
+              // [
+              //   {
+              //     text: "Другое",
+              //     callback_data: "result-other",
+              //   },
+              // ],
               [
                 {
                   text: "Назад",
