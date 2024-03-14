@@ -17,7 +17,7 @@ const bot = new Bot(
 AppDataSource.initialize().then(async () => {
   const userRepo = await AppDataSource.getRepository(User);
   bot.onText(/\/start/, async (msg) => {
-    let user = await userRepo.findOneBy({id: String(msg.from.id)});
+    let user = await userRepo.findOneBy({ id: String(msg.from.id) });
     if (!user) {
       user = new User();
       user.username = msg.from.username;
@@ -25,7 +25,7 @@ AppDataSource.initialize().then(async () => {
       await userRepo.save(user);
     }
     await wait(0.5);
-    bot.sendMessage(msg.from.id, text('desc.txt'), {
+    bot.sendMessage(msg.from.id, text("desc.txt"), {
       reply_markup: {
         inline_keyboard: [
           [
@@ -93,7 +93,7 @@ AppDataSource.initialize().then(async () => {
     console.log(user.lastQuery);
     if (q.data === "about") {
       await wait(0.5);
-      await bot.sendMessage(q.from.id, text('about-2.txt'));
+      await bot.sendMessage(q.from.id, text("about-2.txt"));
       await wait(30);
       await bot.sendMessage(q.from.id, q.from.first_name + text("about.txt"), {
         reply_markup: {
@@ -216,13 +216,8 @@ AppDataSource.initialize().then(async () => {
       await userRepo.save(user);
     }
 
-    test(bot, userRepo,q);
-
-
-
+    test(bot, userRepo, q);
   });
-
-
 
   bot.onText(/./, async (msg) => {
     const user = await userRepo.findOneBy({ id: String(msg.from.id) });
@@ -423,9 +418,6 @@ AppDataSource.initialize().then(async () => {
           },
         );
       }
-      
     }
   });
-
-  
 });
