@@ -873,7 +873,7 @@ export const test = async (
         },
       },
     );
-  } else if (q.data === "get-r-skin") {
+  } else if (q.data === "get-r-sk") {
     let result = "На основе ваших ответов я бы предложил ";
     if (user.skinIssue === "swelling") {
       result += "Антицеллюлитный массаж, а также обертывание глиной";
@@ -950,7 +950,7 @@ export const test = async (
         inline_keyboard: [
           [
             {
-              callback_data: "get-r-skin",
+              callback_data: "get-r-sk",
               text: "Подписался!!",
             },
           ],
