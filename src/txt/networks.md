@@ -4,4 +4,4 @@
 🖌 [страница ВК](https://vk.com/masala_massage)
 ✏️ [администратор салона WhatsApp 79219075409](https://wa.me/message/Z5OI3PAHRBZMI1)
 🖌 [онлайн запись](https://n520586.yclients.com)
-🔥\💫Будем рады подписке в запрете \(новая инста\) \@massagespb_Masala
+🔥💫Будем рады подписке в запрете \(новая инста\) \@massagespb\_Masala
