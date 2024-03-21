@@ -225,8 +225,8 @@ AppDataSource.initialize().then(async () => {
       user.waitingFor = "none";
       await userRepo.save(user);
       await bot.sendMessage(
-        msg.from.id,
-        "Должно быть сообщение админу, телефон: " + msg.text,
+        95600169,
+        `Пользователь ${msg.from.first_name} оставил свой телефон `  + msg.text,
       );
     } else if (user && user.waitingFor === "age" && /^[0-9]+$/.test(msg.text)) {
       user.waitingFor = "none";
@@ -257,7 +257,7 @@ AppDataSource.initialize().then(async () => {
         msg.from.id,
         "Записал. В ближайшее время с вами свяжется наш менеджер и проконсультирует по визиту 🩷",
       );
-      await bot.sendMessage(msg.from.id, `СООБЩЕНИЕ АДМИНУ: ${msg.text}`);
+      await bot.sendMessage(95600169, `Прошел тест (результат ${user.testRes}) ${msg.text} тг ${msg.from.username} `);
     } else if (user && user.waitingFor === "tellMore") {
       user.waitingFor = "none";
       user.tellMore += `${user.tellMoreQuery}: ${msg.text}\n`;
@@ -352,6 +352,8 @@ AppDataSource.initialize().then(async () => {
           msg.from.id,
           "На основе ваших ответов я бы предложил классический массаж",
         );
+        user.testRes = 'классический массаж';
+        await userRepo.save(user);
         await bot.sendMessage(
           msg.from.id,
           "Ну что, готовы прийти к нам на визит?",

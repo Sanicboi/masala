@@ -924,7 +924,8 @@ export const test = async (
         caption: text("chiro.txt") + "\n\n" + text("spacelifting.txt"),
       });
     }
-
+    user.testRes = result;
+    await repo.save(user);
     await wait(20);
     await bot.sendMessage(q.from.id, "Ну что, готовы прийти к нам на визит?", {
       reply_markup: {
@@ -1614,6 +1615,8 @@ export const test = async (
     }
     await bot.sendMessage(q.from.id, result);
     await wait(3);
+    user.testRes = result;
+    await repo.save(user);
     await bot.sendPhoto(q.from.id, img, {
       caption: result2,
     });
@@ -1677,6 +1680,8 @@ export const test = async (
 
     await bot.sendMessage(q.from.id, result);
     await wait(3);
+    user.testRes = result;
+    await repo.save(user);
     if (result2) {
       await bot.sendPhoto(q.from.id, img1, { caption: result2 });
       await wait(20);
@@ -1736,7 +1741,8 @@ export const test = async (
 
     await bot.sendMessage(q.from.id, result);
     await wait(3);
-
+    user.testRes = result;
+    await repo.save(user);
     await bot.sendPhoto(q.from.id, img, {
       caption: result2,
     });

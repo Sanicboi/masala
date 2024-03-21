@@ -87,4 +87,7 @@ export class User {
 
   @Column({ nullable: true })
   workType: string;
+
+  @Column({nullable: true })
+  testRes: string;
 }
